@@ -11,6 +11,8 @@
 		E5C736CD1D9543DE00B264AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5C736CC1D9543DE00B264AA /* Assets.xcassets */; };
 		E5C736D01D9543DE00B264AA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C736CE1D9543DE00B264AA /* MainMenu.xib */; };
 		E5C736DB1D9543DE00B264AA /* JPEGEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C736DA1D9543DE00B264AA /* JPEGEncoderTests.swift */; };
+		E5C736EE1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */; };
+		E5C736EF1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,7 +23,42 @@
 			remoteGlobalIDString = E5C736C61D9543DE00B264AA;
 			remoteInfo = JPEGEncoder;
 		};
+		E5C736EA1D9544D800B264AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E5544A261D8D12C900F48BBB;
+			remoteInfo = CBTHuffmanEncoder;
+		};
+		E5C736EC1D9544D800B264AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E5544A2F1D8D12C900F48BBB;
+			remoteInfo = CBTHuffmanEncoderTests;
+		};
+		E5C736F01D9544FE00B264AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E5544A251D8D12C900F48BBB;
+			remoteInfo = CBTHuffmanEncoder;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E5C736F21D9544FF00B264AA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E5C736EF1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E5C736C71D9543DE00B264AA /* JPEGEncoder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JPEGEncoder.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,6 +69,7 @@
 		E5C736D61D9543DE00B264AA /* JPEGEncoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JPEGEncoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C736DA1D9543DE00B264AA /* JPEGEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JPEGEncoderTests.swift; sourceTree = "<group>"; };
 		E5C736DC1D9543DE00B264AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CBTHuffmanEncoder.xcodeproj; path = ../HuffmanEncoder/CBTHuffmanEncoder/CBTHuffmanEncoder.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5C736EE1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +97,7 @@
 				E5C736C91D9543DE00B264AA /* JPEGEncoder */,
 				E5C736D91D9543DE00B264AA /* JPEGEncoderTests */,
 				E5C736C81D9543DE00B264AA /* Products */,
+				E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +130,15 @@
 			path = JPEGEncoderTests;
 			sourceTree = "<group>";
 		};
+		E5C736E61D9544D800B264AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */,
+				E5C736ED1D9544D800B264AA /* CBTHuffmanEncoderTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -100,10 +149,12 @@
 				E5C736C31D9543DE00B264AA /* Sources */,
 				E5C736C41D9543DE00B264AA /* Frameworks */,
 				E5C736C51D9543DE00B264AA /* Resources */,
+				E5C736F21D9544FF00B264AA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E5C736F11D9544FE00B264AA /* PBXTargetDependency */,
 			);
 			name = JPEGEncoder;
 			productName = JPEGEncoder;
@@ -160,6 +211,12 @@
 			mainGroup = E5C736BE1D9543DE00B264AA;
 			productRefGroup = E5C736C81D9543DE00B264AA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E5C736E61D9544D800B264AA /* Products */;
+					ProjectRef = E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E5C736C61D9543DE00B264AA /* JPEGEncoder */,
@@ -167,6 +224,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CBTHuffmanEncoder.framework;
+			remoteRef = E5C736EA1D9544D800B264AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E5C736ED1D9544D800B264AA /* CBTHuffmanEncoderTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CBTHuffmanEncoderTests.xctest;
+			remoteRef = E5C736EC1D9544D800B264AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E5C736C51D9543DE00B264AA /* Resources */ = {
@@ -211,6 +285,11 @@
 			isa = PBXTargetDependency;
 			target = E5C736C61D9543DE00B264AA /* JPEGEncoder */;
 			targetProxy = E5C736D71D9543DE00B264AA /* PBXContainerItemProxy */;
+		};
+		E5C736F11D9544FE00B264AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CBTHuffmanEncoder;
+			targetProxy = E5C736F01D9544FE00B264AA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -319,6 +398,7 @@
 		E5C736E01D9543DE00B264AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JPEGEncoder/Info.plist;
@@ -332,6 +412,7 @@
 		E5C736E11D9543DE00B264AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JPEGEncoder/Info.plist;
