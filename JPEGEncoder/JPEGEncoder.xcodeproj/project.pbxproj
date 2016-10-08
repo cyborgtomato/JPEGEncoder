@@ -13,6 +13,14 @@
 		E5C736DB1D9543DE00B264AA /* JPEGEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C736DA1D9543DE00B264AA /* JPEGEncoderTests.swift */; };
 		E5C736EE1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */; };
 		E5C736EF1D9544FE00B264AA /* CBTHuffmanEncoder.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5C736EB1D9544D800B264AA /* CBTHuffmanEncoder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5C736F51D9546B900B264AA /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C736F41D9546B900B264AA /* Matrix.swift */; };
+		E5C736FB1D996AC800B264AA /* JPEGProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C736FA1D996AC800B264AA /* JPEGProcessing.swift */; };
+		E5C736FE1D9A0C3800B264AA /* QuantizedChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C736FD1D9A0C3700B264AA /* QuantizedChunk.swift */; };
+		E5DC68E01D9A932F003443AE /* HuffmanReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC68DF1D9A932F003443AE /* HuffmanReader.swift */; };
+		E5DC68EA1D9BD6BB003443AE /* Parseable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC68E91D9BD6BB003443AE /* Parseable.swift */; };
+		E5DC68EC1D9BD6DA003443AE /* Tuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC68EB1D9BD6DA003443AE /* Tuple.swift */; };
+		E5DC68EE1D9C2BA8003443AE /* Matrix+Huffman.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC68ED1D9C2BA8003443AE /* Matrix+Huffman.swift */; };
+		E5DD00CB1D9CC5F500132DCA /* JPEGEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DD00CA1D9CC5F500132DCA /* JPEGEncoding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +78,14 @@
 		E5C736DA1D9543DE00B264AA /* JPEGEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JPEGEncoderTests.swift; sourceTree = "<group>"; };
 		E5C736DC1D9543DE00B264AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E5C736E51D9544D700B264AA /* CBTHuffmanEncoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CBTHuffmanEncoder.xcodeproj; path = ../HuffmanEncoder/CBTHuffmanEncoder/CBTHuffmanEncoder.xcodeproj; sourceTree = "<group>"; };
+		E5C736F41D9546B900B264AA /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		E5C736FA1D996AC800B264AA /* JPEGProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPEGProcessing.swift; sourceTree = "<group>"; };
+		E5C736FD1D9A0C3700B264AA /* QuantizedChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantizedChunk.swift; sourceTree = "<group>"; };
+		E5DC68DF1D9A932F003443AE /* HuffmanReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HuffmanReader.swift; sourceTree = "<group>"; };
+		E5DC68E91D9BD6BB003443AE /* Parseable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parseable.swift; sourceTree = "<group>"; };
+		E5DC68EB1D9BD6DA003443AE /* Tuple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tuple.swift; sourceTree = "<group>"; };
+		E5DC68ED1D9C2BA8003443AE /* Matrix+Huffman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Matrix+Huffman.swift"; sourceTree = "<group>"; };
+		E5DD00CA1D9CC5F500132DCA /* JPEGEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPEGEncoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +129,12 @@
 		E5C736C91D9543DE00B264AA /* JPEGEncoder */ = {
 			isa = PBXGroup;
 			children = (
+				E5DC68E71D9BD6A4003443AE /* Categories */,
+				E5C736FC1D9A0C0400B264AA /* DataStructures */,
+				E5C736F31D95469200B264AA /* Matrix */,
+				E5C736FA1D996AC800B264AA /* JPEGProcessing.swift */,
+				E5DD00CA1D9CC5F500132DCA /* JPEGEncoding.swift */,
+				E5DC68DF1D9A932F003443AE /* HuffmanReader.swift */,
 				E5C736CA1D9543DE00B264AA /* AppDelegate.swift */,
 				E5C736CC1D9543DE00B264AA /* Assets.xcassets */,
 				E5C736CE1D9543DE00B264AA /* MainMenu.xib */,
@@ -137,6 +159,32 @@
 				E5C736ED1D9544D800B264AA /* CBTHuffmanEncoderTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E5C736F31D95469200B264AA /* Matrix */ = {
+			isa = PBXGroup;
+			children = (
+				E5C736F41D9546B900B264AA /* Matrix.swift */,
+				E5DC68ED1D9C2BA8003443AE /* Matrix+Huffman.swift */,
+			);
+			path = Matrix;
+			sourceTree = "<group>";
+		};
+		E5C736FC1D9A0C0400B264AA /* DataStructures */ = {
+			isa = PBXGroup;
+			children = (
+				E5C736FD1D9A0C3700B264AA /* QuantizedChunk.swift */,
+				E5DC68EB1D9BD6DA003443AE /* Tuple.swift */,
+			);
+			path = DataStructures;
+			sourceTree = "<group>";
+		};
+		E5DC68E71D9BD6A4003443AE /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E5DC68E91D9BD6BB003443AE /* Parseable.swift */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +314,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5DC68E01D9A932F003443AE /* HuffmanReader.swift in Sources */,
+				E5C736F51D9546B900B264AA /* Matrix.swift in Sources */,
+				E5C736FE1D9A0C3800B264AA /* QuantizedChunk.swift in Sources */,
+				E5C736FB1D996AC800B264AA /* JPEGProcessing.swift in Sources */,
+				E5DC68EE1D9C2BA8003443AE /* Matrix+Huffman.swift in Sources */,
 				E5C736CB1D9543DE00B264AA /* AppDelegate.swift in Sources */,
+				E5DC68EC1D9BD6DA003443AE /* Tuple.swift in Sources */,
+				E5DC68EA1D9BD6BB003443AE /* Parseable.swift in Sources */,
+				E5DD00CB1D9CC5F500132DCA /* JPEGEncoding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +528,7 @@
 				E5C736E11D9543DE00B264AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E5C736E21D9543DE00B264AA /* Build configuration list for PBXNativeTarget "JPEGEncoderTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +537,7 @@
 				E5C736E41D9543DE00B264AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
