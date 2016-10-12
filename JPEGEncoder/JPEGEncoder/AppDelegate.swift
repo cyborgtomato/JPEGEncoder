@@ -11,17 +11,44 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-  @IBOutlet weak var window: NSWindow!
-
+  var imageWindowController : ImageWindowController!
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    // Insert code here to initialize your application
+    imageWindowController = ImageWindowController(windowNibName: "ImageWindow")
+    imageWindowController.showWindow(self)
+    
   }
 
   func applicationWillTerminate(_ aNotification: Notification) {
-    // Insert code here to tear down your application
   }
-
-
+  
+  override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    let selector = menuItem.action
+    
+    if (selector == #selector(openFile(_:))) {
+      return true
+    }
+    return false
+  }
+  
+  @IBAction func openFile(_ sender: AnyObject) {
+    
+    let openPanel = NSOpenPanel()
+    openPanel.title = "Choose a bitmap file"
+    openPanel.showsResizeIndicator = true
+    openPanel.showsHiddenFiles = false
+    openPanel.canChooseDirectories = false
+    openPanel.canCreateDirectories = false
+    openPanel.allowsMultipleSelection = false
+    openPanel.allowedFileTypes = ["bmp"]
+    
+    if (openPanel.runModal() == NSModalResponseOK) {
+      guard let result = openPanel.url else {
+        return
+      }
+      imageWindowController.loadImage(result)
+    }
+  }
+  
 }
 
