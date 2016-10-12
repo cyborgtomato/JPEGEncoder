@@ -12,11 +12,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="JPEGEncoder" customModuleProvider="target">
-            <connections>
-                <outlet property="openFile" destination="IAo-SY-fd9" id="cfa-wF-JYf"/>
-            </connections>
-        </customObject>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="JPEGEncoder" customModuleProvider="target"/>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
@@ -74,7 +70,7 @@
                             </menuItem>
                             <menuItem title="Export…" keyEquivalent="s" id="pxx-59-PXV">
                                 <connections>
-                                    <action selector="saveDocument:" target="-1" id="teZ-XB-qJY"/>
+                                    <action selector="exportFile:" target="Voe-Tx-rLC" id="HY2-nd-FM9"/>
                                 </connections>
                             </menuItem>
                         </items>

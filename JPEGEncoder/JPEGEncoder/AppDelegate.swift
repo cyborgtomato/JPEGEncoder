@@ -28,11 +28,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if (selector == #selector(openFile(_:))) {
       return true
     }
+    if (selector == #selector(exportFile(_:))) {
+      return true
+    }
     return false
   }
   
   @IBAction func openFile(_ sender: AnyObject) {
-    
     let openPanel = NSOpenPanel()
     openPanel.title = "Choose a bitmap file"
     openPanel.showsResizeIndicator = true
@@ -50,5 +52,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
   
+  @IBAction func exportFile(_ sender: AnyObject) {
+    imageWindowController.exportImageToJpeg()
+  }
 }
 

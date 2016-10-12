@@ -18,6 +18,7 @@ class ImageWindowController : NSWindowController {
   @IBOutlet weak var scrollView: NSScrollView!
   @IBOutlet weak var progressIndicator: NSProgressIndicator!
   
+  var bitmap : Matrix<RGBPixel>?
   var currentState : ImageWindowState = .Idle
   
   override func windowDidLoad() {
@@ -65,6 +66,7 @@ class ImageWindowController : NSWindowController {
         }
         return
       }
+      self.bitmap = bitmapData
       let image = createViewFromBitmapData(bitmapData: bitmapData)
       DispatchQueue.main.async {
         self.currentState = .Idle
@@ -81,5 +83,9 @@ class ImageWindowController : NSWindowController {
     loadBitmap(fromUrl: fromURL) { [unowned self] image in
       self.setImage(image: image)
     }
+  }
+  
+  public func exportImageToJpeg() {
+    
   }
 }

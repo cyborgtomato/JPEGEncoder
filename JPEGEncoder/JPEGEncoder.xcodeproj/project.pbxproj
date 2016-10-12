@@ -26,6 +26,7 @@
 		E5FD5FB01DAD3B6A00BA56A4 /* ImageWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5FD5FAD1DAD3B6A00BA56A4 /* ImageWindow.xib */; };
 		E5FD5FB11DAD3B6A00BA56A4 /* ImageWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FD5FAE1DAD3B6A00BA56A4 /* ImageWindowController.swift */; };
 		E5FD60021DAE7B2100BA56A4 /* CenteredClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FD60011DAE7B2100BA56A4 /* CenteredClipView.swift */; };
+		E5FD60051DAE8EB300BA56A4 /* BitmapConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FD60041DAE8EB300BA56A4 /* BitmapConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		E5FD5FAD1DAD3B6A00BA56A4 /* ImageWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageWindow.xib; sourceTree = "<group>"; };
 		E5FD5FAE1DAD3B6A00BA56A4 /* ImageWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageWindowController.swift; sourceTree = "<group>"; };
 		E5FD60011DAE7B2100BA56A4 /* CenteredClipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredClipView.swift; sourceTree = "<group>"; };
+		E5FD60041DAE8EB300BA56A4 /* BitmapConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitmapConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				E5C736FC1D9A0C0400B264AA /* DataStructures */,
 				E5C736F31D95469200B264AA /* Matrix */,
 				E5E4FDA21DABC68F006D2101 /* BitmapReader.swift */,
+				E5FD60041DAE8EB300BA56A4 /* BitmapConverter.swift */,
 				E5C736FA1D996AC800B264AA /* JPEGProcessing.swift */,
 				E5DD00CA1D9CC5F500132DCA /* JPEGEncoding.swift */,
 				E5DC68DF1D9A932F003443AE /* HuffmanReader.swift */,
@@ -341,6 +344,7 @@
 				E5FD60021DAE7B2100BA56A4 /* CenteredClipView.swift in Sources */,
 				E5DC68E01D9A932F003443AE /* HuffmanReader.swift in Sources */,
 				E5E4FDA31DABC68F006D2101 /* BitmapReader.swift in Sources */,
+				E5FD60051DAE8EB300BA56A4 /* BitmapConverter.swift in Sources */,
 				E5C736F51D9546B900B264AA /* Matrix.swift in Sources */,
 				E5C736FE1D9A0C3800B264AA /* QuantizedChunk.swift in Sources */,
 				E5C736FB1D996AC800B264AA /* JPEGProcessing.swift in Sources */,
