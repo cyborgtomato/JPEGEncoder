@@ -48,15 +48,15 @@ public func readBitmapFromFile(file: String) throws -> Matrix<RGBPixel> {
   let fileHeader = readBytes(fileHandle: fileHandle, FileHeader.self)
   let bitmapHeader = readBytes(fileHandle: fileHandle, BitmapHeader.self)
 
-  let width = bitmapHeader.width
-  let height = abs(bitmapHeader.height)
+  let width = Int(bitmapHeader.width)
+  let height = Int(abs(bitmapHeader.height))
   
   let bytesPerComponent : Int = Int(bitmapHeader.colorDepth / 8)
   let bytesInRow = Int32(bytesPerComponent) * bitmapHeader.width
   let paddingBytes = (4 - bytesInRow % 4) % 4
-  var colorPoints : [[RGBPixel]] = []
+  var colorPoints : [RGBPixel] = []
   
-  let appendBlock : (inout [[RGBPixel]], [RGBPixel]) -> ()
+  let appendBlock : (inout [RGBPixel], RGBPixel) -> ()
   if (bitmapHeader.height > 0) {
     appendBlock = { $0.insert($1, at: 0) }
   } else {
@@ -65,16 +65,14 @@ public func readBitmapFromFile(file: String) throws -> Matrix<RGBPixel> {
   
   fileHandle.seek(toFileOffset: UInt64(fileHeader.dataOffset))
   for _ in 0..<height {
-    var row : [RGBPixel] = []
     for _ in 0..<width {
       var pixel = emptyPixel()
       fileHandle.readData(ofLength: Int(bytesPerComponent)).copyBytes(to: &pixel.red, count: Int(bytesPerComponent))
-      row.append(pixel)
+      appendBlock(&colorPoints, pixel)
     }
-    appendBlock(&colorPoints, row)
     fileHandle.seek(toFileOffset: UInt64(paddingBytes) + fileHandle.offsetInFile)
   }
-  return Matrix(colorPoints)
+  return Matrix(colorPoints, rows: height, cols: width)
 }
 
 public func createViewFromBitmapData(bitmapData : Matrix<RGBPixel>) -> NSImage? {

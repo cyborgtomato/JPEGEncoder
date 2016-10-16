@@ -9,10 +9,14 @@
 import CBTHuffmanEncoder
 
 public struct QuantizedChunk : Equatable {
-  
   let dcValue : (HuffmanValue<Int>, Int)
   let acValues : [(HuffmanValue<Tuple<Int, Int>>, Int)]
-  
+}
+
+public struct ComponentsChunk {
+  let lumaChunk : QuantizedChunk
+  let chromaBlueChunk : QuantizedChunk
+  let chromaRedChunk : QuantizedChunk
 }
 
 public func ==(lhs : QuantizedChunk, rhs : QuantizedChunk) -> Bool {

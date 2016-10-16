@@ -13,25 +13,25 @@ private func pi(_ multiplier: Double) -> Double {
 }
 
 private func dctMatrix() -> Matrix<Double> {
-  var data = Array(repeating: 0, count: 8).map { _ in Array(repeating: 0.0, count: 8) }
+  var data = [Double](repeating: 0.0, count: 64)
   for i in 0 ..< 8 {
     for j in 0 ..< 8 {
       if i == 0 {
-        data[i][j] = pi(4.0)
+        data[i * 8 + j] = pi(4.0)
       } else {
-        data[i][j] = pi(Double(j * 2 + 1) * Double(i));
+        data[i * 8 + j] = pi(Double(j * 2 + 1) * Double(i));
       }
     }
   }
-  return Matrix(data)
+  return Matrix(data, rows: 8, cols: 8)
 }
 
 public func dct(_ source : Matrix<Double>) throws -> Matrix<Double> {
   let dct = dctMatrix()
-  return try dct * source * dct.transpose()
+  return try dct * source * transpose(dct)
 }
 
 public func reverseDct(_ source : Matrix<Double>) throws -> Matrix<Double> {
   let dct = dctMatrix()
-  return try dct.transpose() * source * dct
+  return try transpose(dct) * source * dct
 }

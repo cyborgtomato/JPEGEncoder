@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     openPanel.canChooseDirectories = false
     openPanel.canCreateDirectories = false
     openPanel.allowsMultipleSelection = false
-    openPanel.allowedFileTypes = ["bmp"]
+    openPanel.allowedFileTypes = ["cbt_jpeg", "bmp"]
     
     if (openPanel.runModal() == NSModalResponseOK) {
       guard let result = openPanel.url else {

@@ -6,6 +6,22 @@
 //  Copyright © 2016 sergeysmagleev. All rights reserved.
 //
 
+import Accelerate
+
+let yCbCrToRGBMatrix = [
+    1.164, 0.0, 1.596,
+    1.164, -0.392, -0.813,
+    1.164, 2.017, 0.0
+    ]
+
+let rbgToYCbCrMatrix = [
+    0.257, 0.504, 0.098,
+    -0.148, -0.291, 0.439,
+    0.439, -0.368, -0.071
+    ]
+
+let offsetMatrix = [16.0, 128.0, 128.0]
+
 public struct FileHeader {
   var fileSize : Int32
   var reservedWord1 : Int16
@@ -34,6 +50,12 @@ public struct RGBPixel : Equatable {
   var alpha : UInt8
 }
 
+public struct YCbCrPixel : Equatable{
+  var luminance : Double
+  var chromaBlue : Double
+  var chromaRed : Double
+}
+
 public func emptyPixel() -> RGBPixel {
   return RGBPixel(red: 0, green: 0, blue: 0, alpha: 0)
 }
@@ -45,3 +67,35 @@ public func ==(lhs : RGBPixel, rhs : RGBPixel) -> Bool {
     lhs.alpha == rhs.alpha
 }
 
+public func ==(lhs : YCbCrPixel, rhs : YCbCrPixel) -> Bool {
+  return lhs.luminance == rhs.luminance &&
+    lhs.chromaBlue == rhs.chromaBlue &&
+    lhs.chromaRed == rhs.chromaRed
+}
+
+public func rgbToYCbCr(pixel : RGBPixel) throws -> YCbCrPixel {
+  let rgbMatrix = [Double(pixel.red),
+                   Double(pixel.green),
+                   Double(pixel.blue)]
+  var retVal = [Double](repeating: 0.0, count: 3)
+  vDSP_mmulD(rbgToYCbCrMatrix, 1, rgbMatrix, 1, &retVal, 1, 3, 1, 3)
+  vDSP_vaddD(offsetMatrix, 1, retVal, 1, &retVal, 1, 3)
+  return YCbCrPixel(luminance: retVal[0],
+                    chromaBlue: retVal[1],
+                    chromaRed: retVal[2])
+}
+
+public func yCbCrToRGB(pixel : YCbCrPixel) throws -> RGBPixel {
+  let yCbCrMatrix = [pixel.luminance, pixel.chromaBlue, pixel.chromaRed]
+  var retVal = [Double](repeating: 0.0, count: 3)
+  vDSP_vsubD(offsetMatrix, 1, yCbCrMatrix, 1, &retVal, 1, 3)
+  vDSP_mmulD(yCbCrToRGBMatrix, 1, retVal, 1, &retVal, 1, 3, 1, 3)
+  return RGBPixel(red: UInt8(boundaryValue(value: retVal[0], minimum: 0.0, maximum: 255.0)),
+                  green: UInt8(boundaryValue(value: retVal[1], minimum: 0.0, maximum: 255.0)),
+                  blue: UInt8(boundaryValue(value: retVal[2], minimum: 0.0, maximum: 255.0)),
+                  alpha: 0)
+}
+
+func boundaryValue<T : Comparable>(value : T, minimum : T, maximum : T) -> T {
+  return max(minimum, min(value, maximum))
+}

@@ -43,15 +43,15 @@ class JPEGEncoderTests: XCTestCase {
   }
   
   func testQuantization() {
-    let matrix = Matrix([[94.5, 25.3],
+    let matrix : Matrix<Double> = Matrix([[94.5, 25.3],
                          [24.4, 1.5]])
-    let quantization : Matrix<Int> = Matrix([[5, 4],
-                                             [4, 2]])
+    let quantization : Matrix<Double> = Matrix([[5, 4],
+                                                [4, 2]])
     let quantized : Matrix<Int>
     let dequantized : Matrix<Double>
     do {
-      quantized = try quantize(matrix, by: quantization)
-      dequantized = try dequantize(quantized, by: quantization)
+      quantized = try quantize(matrix, by: quantization).matrixMap { Int($0) }
+      dequantized = try dequantize(quantized.matrixMap { Double($0) }, by: quantization)
     } catch {
       XCTFail("quantization failed")
       return
@@ -111,14 +111,14 @@ class JPEGEncoderTests: XCTestCase {
   
   func testZigzagRun() {
     let input : Matrix<Double> = Matrix([[3, 2, 3],
-                                         [1, 0, 4]])
+                                      [1, 0, 4]])
     XCTAssert(input.zigzagRun() == [2, 1, 0, 3, 4])
     
     let input2 : Matrix<Double> = Matrix([[3, 2, 3, 5, 3],
-                                          [1, 0, 4, 2, 0],
-                                          [3, 0, 4, 2, 0],
-                                          [1, 2, 0, 0, 0],
-                                          [1, 0, 0, 0, 0]])
+                                       [1, 0, 4, 2, 0],
+                                       [3, 0, 4, 2, 0],
+                                       [1, 2, 0, 0, 0],
+                                       [1, 0, 0, 0, 0]])
     XCTAssert(input2.zigzagRun() == [2, 1, 3, 0, 3, 5, 4, 0, 1, 1, 2, 4, 2, 3, 0, 2])
     
     let intZigzag = produceAC(input2.zigzagRun().map { Int($0) })
@@ -146,13 +146,13 @@ class JPEGEncoderTests: XCTestCase {
   
   func testCreateChunks() {
     let matrix1 : Matrix<Double> = Matrix([[200, 2, 3, 4],
-                                           [3, 2, 3, 0],
-                                           [2, 2, 0, 0],
-                                           [1, 0, 0, 0]])
+                                        [3, 2, 3, 0],
+                                        [2, 2, 0, 0],
+                                        [1, 0, 0, 0]])
     let matrix2 : Matrix<Double> = Matrix([[208, 2, 3, 4],
-                                           [3, 2, 3, 0],
-                                           [2, 2, 0, 0],
-                                           [1, 0, 0, 0]])
+                                        [3, 2, 3, 0],
+                                        [2, 2, 0, 0],
+                                        [1, 0, 0, 0]])
     let chunk1 = QuantizedChunk(dcValue: (HuffmanValue.value(8), 200), acValues: [(HuffmanValue.value(Tuple(a: 0, b: 2)), 2),
                                                                                   (HuffmanValue.value(Tuple(a: 0, b: 2)), 3),
                                                                                   (HuffmanValue.value(Tuple(a: 0, b: 2)), 2),
@@ -175,15 +175,20 @@ class JPEGEncoderTests: XCTestCase {
                                                                                 (HuffmanValue.terminatingValue, 0)])
     let input = Matrix([[matrix1, matrix2]])
     let output = [chunk1, chunk2]
-    XCTAssertEqual(createChunks(source: input), output)
+    XCTAssertEqual(createChunks(input), output)
   }
   
   func testEncode() {
+    guard let dcPath = Bundle.main.path(forResource: "dc_coefficients", ofType: "txt"),
+      let acPath = Bundle.main.path(forResource: "ac_coefficients", ofType: "txt") else {
+        XCTFail("Table files missing")
+        return
+    }
     let dcTable : HuffmanTable<Int>
     let acTable : HuffmanTable<Tuple<Int, Int>>
     do {
-      dcTable = try createEncodedCharacters(try readTableFromFile(path: "/Users/Shared/dc_coefficients.txt"))
-      acTable = try createEncodedCharacters(try readTableFromFile(path: "/Users/Shared/ac_coefficients.txt"))
+      dcTable = try createEncodedCharacters(try readTableFromFile(dcPath))
+      acTable = try createEncodedCharacters(try readTableFromFile(acPath))
     } catch {
       XCTFail("Failed to create tables")
       return
@@ -197,6 +202,34 @@ class JPEGEncoderTests: XCTestCase {
     let output : [UInt8] = [0b01010110, 0b01111101, 0b01011011, 0b11111111, 0b00000001]
     let encoder = makeChunkEncoder(dcTable: dcTable, acTable: acTable)
     XCTAssertEqual(try encoder(input), output)
+  }
+  
+  func testMatrixMap() {
+    let input : Matrix<Double> = Matrix([[3, 2, 3],
+                                         [1, 0, 4]])
+    let output : Matrix<Double> = Matrix([[5, 4, 5],
+                                          [3, 2, 6]])
+    XCTAssertEqual(output, input.matrixMap(processClosure: { value -> Double in
+      return value + 2
+    }))
+  }
+  
+  func testDivideToChunks() {
+    let input : Matrix<Double> = Matrix([[3, 2, 3],
+                                         [1, 0, 4],
+                                         [6, 7, 9]])
+    let matrix1 : Matrix<Double> = Matrix([[3, 2],
+                                           [1, 0]])
+    let matrix2 : Matrix<Double> = Matrix([[3, 0],
+                                           [4, 0]])
+    let matrix3 : Matrix<Double> = Matrix([[6, 7],
+                                           [0, 0]])
+    let matrix4 : Matrix<Double> = Matrix([[9, 0],
+                                           [0, 0]])
+    let output : Matrix<Matrix<Double>> = Matrix([[matrix1, matrix2],
+                                                  [matrix3, matrix4]])
+    let processed = divideMatrixToChunks(input, height: 2, width: 2)
+    XCTAssertEqual(output, processed)
   }
     
 }

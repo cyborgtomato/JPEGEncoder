@@ -25,7 +25,20 @@ public func readTable<T : Parseable>(_ lines: [String]) throws -> HuffmanTreeNod
   return createTreeFromTable(encodedCharacters)
 }
 
-public func readTableFromFile<T : Parseable>(path : String) throws -> HuffmanTreeNode<T> {
+public func readTableFromFile<T : Parseable>(_ path : String) throws -> HuffmanTreeNode<T> {
   let lines = try readLines(path)
   return try readTable(lines)
 }
+
+public func readFile(fromURL url: URL) throws -> [UInt8] {
+  let fileData = try Data(contentsOf: url)
+  var byteArray = [UInt8](repeating: 0, count: fileData.count)
+  fileData.copyBytes(to: &byteArray, count: fileData.count)
+  return byteArray
+}
+
+public func writeToFile(toURL url: URL, source : [UInt8]) throws {
+  let data = Data(bytes: source)
+  try data.write(to: url, options: .atomic)
+}
+

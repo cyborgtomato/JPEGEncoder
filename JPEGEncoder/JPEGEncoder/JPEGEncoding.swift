@@ -34,12 +34,12 @@ public func produceAC(_ source : [Int]) -> [(HuffmanValue<Tuple<Int, Int>>, Int)
   return retVal
 }
 
-public func createChunks(source : Matrix<Matrix<Double>>) -> [QuantizedChunk] {
+public func createChunks(_ source : Matrix<Matrix<Double>>) -> [QuantizedChunk] {
   var previousDCValue = 0
   var retVal : [QuantizedChunk] = []
   for item in source {
     let dcValue = Int(item[0, 0]) - previousDCValue
-    previousDCValue = dcValue
+    previousDCValue = Int(item[0, 0])
     let dc = (HuffmanValue.value(Int(acCodeLength(dcValue))), dcValue)
     let acValues = item.zigzagRun()
     let ac = produceAC(acValues.map { Int($0)} )
@@ -51,6 +51,16 @@ public func createChunks(source : Matrix<Matrix<Double>>) -> [QuantizedChunk] {
 public func makeChunkEncoder(dcTable : HuffmanTable<Int>, acTable : HuffmanTable<Tuple<Int, Int>>)
   -> ([QuantizedChunk]) throws -> [UInt8] {
     return { source -> [UInt8] in
+      #if DEBUG
+        let beginTime = Date()
+      #endif
+      
+      defer {
+        #if DEBUG
+          let executionTime = Date().timeIntervalSince(beginTime)
+          print("\(#function) total execution time: \(executionTime)")
+        #endif
+      }
       var retVal : [EncodedEntity] = []
       
       for chunk in source {

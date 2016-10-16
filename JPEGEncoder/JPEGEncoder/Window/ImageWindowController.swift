@@ -58,6 +58,11 @@ class ImageWindowController : NSWindowController {
       let bitmapData : Matrix<RGBPixel>
       do {
         bitmapData = try readBitmapFromFile(file: fromUrl.path)
+//        let bytes = try readFile(fromURL: fromUrl)
+//        let height = bytes[0]
+//        let width = bytes[1]
+//        let chunks = try decodeChunks(bytes)
+//        bitmapData = try uncompressRGBData(chunks, rows: Int(height), cols: Int(width))
       } catch {
         DispatchQueue.main.async {
           self.currentState = .Idle
@@ -76,6 +81,31 @@ class ImageWindowController : NSWindowController {
     }
   }
   
+  func compressImage() {
+    //todo change
+    let url = URL(fileURLWithPath: "/Users/Shared/file.cbt_jpeg")
+    guard let bitmap = self.bitmap else {
+      return
+    }
+    currentState = .Loading
+    updateState()
+    do {
+      let pixels = try compressRGBData(bitmap)
+      let binaryData = try encodeChunks(pixels,
+                                        rows: Int(ceil(Double(bitmap.height) / 8.0)),
+                                        cols: Int(ceil(Double(bitmap.width) / 8.0)))
+      try writeToFile(toURL: url, source: binaryData)
+      print("compression byte count: \(binaryData.count)")
+      
+    } catch {
+      currentState = .Idle
+      updateState()
+      print("failed to compress")
+      return
+    }
+    print("saved to a file")
+  }
+  
   public func loadImage(_ fromURL: URL) {
     if currentState == .Loading {
       return
@@ -86,6 +116,6 @@ class ImageWindowController : NSWindowController {
   }
   
   public func exportImageToJpeg() {
-    
+    compressImage()
   }
 }
