@@ -38,7 +38,7 @@ class ImageWindowController : NSWindowController {
     saveAsJPEGButton.title = "Export to JPEG"
   }
   
-  //MARK: - update
+  //MARK: - Update
   
   func updateState(_ state : ImageWindowState) {
     currentState = state
@@ -75,6 +75,8 @@ class ImageWindowController : NSWindowController {
     }
   }
   
+  //MARK: - Operations on images
+  
   func setImage(image : NSImage?) {
     if let newimage = image {
       let imageView = NSImageView()
@@ -89,14 +91,12 @@ class ImageWindowController : NSWindowController {
   }
   
   func loadBitmap(fromUrl: URL, completion : @escaping (NSImage?) -> ()) {
-    updateState(.Loading)
     DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
       let bitmapData : Matrix<RGBPixel>
       do {
         bitmapData = try readBitmapFromFile(file: fromUrl.path)
       } catch {
         DispatchQueue.main.async {
-          self.updateState(.Undefined)
           completion(nil)
         }
         return
@@ -104,14 +104,12 @@ class ImageWindowController : NSWindowController {
       self.bitmap = bitmapData
       let image = createViewFromBitmapData(bitmapData: bitmapData)
       DispatchQueue.main.async {
-        self.updateState(.Bitmap)
         completion(image)
       }
     }
   }
   
   func loadJPEG(fromUrl: URL, completion : @escaping (NSImage?) -> ()) {
-    updateState(.Loading)
     DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
       let bitmapData : Matrix<RGBPixel>
       do {
@@ -122,7 +120,6 @@ class ImageWindowController : NSWindowController {
         bitmapData = try uncompressRGBData(chunks, rows: Int(height), cols: Int(width))
       } catch {
         DispatchQueue.main.async {
-          self.updateState(.Undefined)
           completion(nil)
         }
         return
@@ -130,7 +127,6 @@ class ImageWindowController : NSWindowController {
       self.bitmap = bitmapData
       let image = createViewFromBitmapData(bitmapData: bitmapData)
       DispatchQueue.main.async {
-        self.updateState(.JPEG)
         completion(image)
       }
     }
@@ -138,6 +134,7 @@ class ImageWindowController : NSWindowController {
   
   func compressImage(url : URL) {
     guard let bitmap = self.bitmap else {
+      print("no bitmap to compress")
       return
     }
     updateState(.Loading)
@@ -157,12 +154,21 @@ class ImageWindowController : NSWindowController {
         print("failed to compress")
         return
       }
-      print("saved to a file")
+      print("saved to a file: \(url)")
       DispatchQueue.main.async {
-        self.updateState(.Bitmap)
+        self.loadJPEG(fromUrl: url, completion: { image in
+          if (image != nil) {
+            self.setImage(image: image)
+            self.updateState(.JPEG)
+          } else {
+            self.updateState(.Undefined)
+          }
+        })
       }
     }
   }
+  
+  //MARK: - IBActions
   
   @IBAction func openBitmapButtonTapped(_ sender: AnyObject) {
     openBitmapFile()
@@ -175,6 +181,8 @@ class ImageWindowController : NSWindowController {
   @IBAction func saveAsJPEGButtonTapped(_ sender: AnyObject) {
     saveJPEGFile()
   }
+  
+  //MARK: - File Dialogs
   
   func openBitmapFile() {
     let openPanel = NSOpenPanel()
@@ -193,8 +201,14 @@ class ImageWindowController : NSWindowController {
       if currentState == .Loading {
         return
       }
+      updateState(.Loading)
       loadBitmap(fromUrl: result) { [unowned self] image in
-        self.setImage(image: image)
+        if (image != nil) {
+          self.setImage(image: image)
+          self.updateState(.Bitmap)
+        } else {
+          self.updateState(.Undefined)
+        }
       }
     }
   }
@@ -216,8 +230,14 @@ class ImageWindowController : NSWindowController {
       if currentState == .Loading {
         return
       }
+      updateState(.Loading)
       loadJPEG(fromUrl: result) { [unowned self] image in
-        self.setImage(image: image)
+        if (image != nil) {
+          self.setImage(image: image)
+          self.updateState(.JPEG)
+        } else {
+          self.updateState(.Undefined)
+        }
       }
     }
   }
@@ -234,12 +254,10 @@ class ImageWindowController : NSWindowController {
       guard let result = savePanel.url else {
         return
       }
+      if currentState == .Loading {
+        return
+      }
       compressImage(url : result)
     }
   }
-  
-  @IBAction func exportFile(_ sender: AnyObject) {
-    saveJPEGFile()
-  }
-  
 }
