@@ -104,9 +104,9 @@ class JPEGEncoderTests: XCTestCase {
       XCTFail("failed to read huffmanTable")
       return
     }
-    XCTAssert(try table.getLeftNode().getLeftNode().isTerminal)
-    XCTAssert(try table.getLeftNode().getRightNode().getLeftNode().getValue() == 1)
-    XCTAssert(try table.getLeftNode().getRightNode().getRightNode().getValue() == 2)
+    XCTAssert(try table.getLeftNode().getLeftNode().value.isTerminal())
+    XCTAssert(try table.getLeftNode().getRightNode().getLeftNode().value.unwrap() == 1)
+    XCTAssert(try table.getLeftNode().getRightNode().getRightNode().value.unwrap() == 2)
   }
   
   func testZigzagRun() {
