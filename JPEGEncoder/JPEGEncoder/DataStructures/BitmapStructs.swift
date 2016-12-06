@@ -44,9 +44,9 @@ public struct BitmapHeader {
 }
 
 public struct RGBPixel : Equatable {
-  var red : UInt8
-  var green : UInt8
   var blue : UInt8
+  var green : UInt8
+  var red : UInt8
   var alpha : UInt8
 }
 
@@ -57,7 +57,7 @@ public struct YCbCrPixel : Equatable{
 }
 
 public func emptyPixel() -> RGBPixel {
-  return RGBPixel(red: 0, green: 0, blue: 0, alpha: 0)
+  return RGBPixel(blue: 0, green: 0, red: 0, alpha: 0)
 }
 
 public func ==(lhs : RGBPixel, rhs : RGBPixel) -> Bool {
@@ -73,7 +73,7 @@ public func ==(lhs : YCbCrPixel, rhs : YCbCrPixel) -> Bool {
     lhs.chromaRed == rhs.chromaRed
 }
 
-public func rgbToYCbCr(pixel : RGBPixel) throws -> YCbCrPixel {
+public func rgbToYCbCr(pixel : RGBPixel) -> YCbCrPixel {
   let rgbMatrix = [Double(pixel.red),
                    Double(pixel.green),
                    Double(pixel.blue)]
@@ -85,14 +85,14 @@ public func rgbToYCbCr(pixel : RGBPixel) throws -> YCbCrPixel {
                     chromaRed: retVal[2])
 }
 
-public func yCbCrToRGB(pixel : YCbCrPixel) throws -> RGBPixel {
+public func yCbCrToRGB(pixel : YCbCrPixel) -> RGBPixel {
   let yCbCrMatrix = [pixel.luminance, pixel.chromaBlue, pixel.chromaRed]
   var retVal = [Double](repeating: 0.0, count: 3)
   vDSP_vsubD(offsetMatrix, 1, yCbCrMatrix, 1, &retVal, 1, 3)
   vDSP_mmulD(yCbCrToRGBMatrix, 1, retVal, 1, &retVal, 1, 3, 1, 3)
-  return RGBPixel(red: UInt8(boundaryValue(value: retVal[0], minimum: 0.0, maximum: 255.0)),
+  return RGBPixel(blue: UInt8(boundaryValue(value: retVal[2], minimum: 0.0, maximum: 255.0)),
                   green: UInt8(boundaryValue(value: retVal[1], minimum: 0.0, maximum: 255.0)),
-                  blue: UInt8(boundaryValue(value: retVal[2], minimum: 0.0, maximum: 255.0)),
+                  red: UInt8(boundaryValue(value: retVal[0], minimum: 0.0, maximum: 255.0)),
                   alpha: 0)
 }
 
