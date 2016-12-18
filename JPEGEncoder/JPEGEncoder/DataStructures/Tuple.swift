@@ -8,7 +8,8 @@
 
 import CBTHuffmanEncoder
 
-public struct Tuple<T : Equatable, U : Equatable> : Equatable, Parseable where T : Parseable, U : Parseable {
+public struct Tuple<T : Equatable, U : Equatable> : Hashable, Equatable, Parseable
+where T : Parseable, U : Parseable, T : Hashable, U : Hashable {
   let a : T
   let b : U
   
@@ -37,6 +38,14 @@ public struct Tuple<T : Equatable, U : Equatable> : Equatable, Parseable where T
   
   public func raw() -> (T, U) {
     return (a, b)
+  }
+  
+  public var hashValue: Int {
+    let prime = 13
+    var result = 1
+    result = prime &* result &+ a.hashValue
+    result = prime &* result &+ b.hashValue
+    return result
   }
 }
 
