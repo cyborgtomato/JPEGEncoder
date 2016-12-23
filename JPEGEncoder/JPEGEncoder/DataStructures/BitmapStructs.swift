@@ -87,12 +87,12 @@ public func rgbToYCbCr(pixel : RGBPixel) -> YCbCrPixel {
 
 public func yCbCrToRGB(pixel : YCbCrPixel) -> RGBPixel {
   let yCbCrMatrix = [pixel.luminance, pixel.chromaBlue, pixel.chromaRed]
-  var retVal = [Double](repeating: 0.0, count: 3)
+  var retVal = [0.0, 0.0, 0.0]
   vDSP_vsubD(offsetMatrix, 1, yCbCrMatrix, 1, &retVal, 1, 3)
   vDSP_mmulD(yCbCrToRGBMatrix, 1, retVal, 1, &retVal, 1, 3, 1, 3)
-  return RGBPixel(blue: UInt8(boundaryValue(value: retVal[2], minimum: 0.0, maximum: 255.0)),
-                  green: UInt8(boundaryValue(value: retVal[1], minimum: 0.0, maximum: 255.0)),
-                  red: UInt8(boundaryValue(value: retVal[0], minimum: 0.0, maximum: 255.0)),
+  return RGBPixel(blue: UInt8(abs(Int(retVal[2])) & 0xff),
+                  green: UInt8(abs(Int(retVal[1])) & 0xff),
+                  red: UInt8(abs(Int(retVal[0])) & 0xff),
                   alpha: 0)
 }
 

@@ -52,20 +52,19 @@ public func makeChunkDecoder(dcTable : HuffmanTable<Int>, acTable : HuffmanTable
 
 public func matricesFromChunks(source : [QuantizedChunk], rows: Int, cols: Int) -> Matrix<Matrix<Double>> {
   var previousDCValue : Double = 0.0
-  var retVal : [Matrix<Double>] = []
-  var index = 0
-  for _ in 0..<rows {
-    for _ in 0..<cols {
+  var retVal : [[Double]] = [[Double]](repeating:[], count: rows * cols)
+  for i in 0..<rows {
+    for j in 0..<cols {
+      let index = i * cols + j
       let dcValue = Double(source[index].dcValue.1) + previousDCValue
       let acValue = byteArrayFromRLE(source[index].acValues)
       var matrix = reverseZigzagRun(acValue.map { Double($0) })
       matrix[0] = dcValue
       previousDCValue = dcValue
-      retVal.append(Matrix(matrix, rows: 8, cols: 8))
-      index += 1
+      retVal[index] = matrix
     }
   }
-  return Matrix(retVal, rows: rows, cols: cols)
+  return Matrix(retVal.map{Matrix<Double>($0, rows: 8, cols: 8)}, rows: rows, cols: cols)
 }
 
 public func byteArrayFromRLE(_ source : [(HuffmanValue<Tuple<Int, Int>>, Int)]) -> [Int] {
